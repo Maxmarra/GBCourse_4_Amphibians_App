@@ -21,12 +21,16 @@ class AmphibianListFragment : Fragment() {
     ): View? {
         val binding = FragmentAmphibianListBinding.inflate(inflater)
         // TODO: call the view model method that calls the amphibians api
+        viewModel.getAmphibiansList()
+
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.recyclerView.adapter = AmphibianListAdapter(AmphibianListener { amphibian ->
+        binding.recyclerView.adapter =
+            AmphibianListAdapter(AmphibianListener { amphibian ->
             viewModel.onAmphibianClicked(amphibian)
             findNavController()
-                .navigate(R.id.action_amphibianListFragment_to_amphibianDetailFragment)
+                .navigate(
+                    R.id.action_amphibianListFragment_to_amphibianDetailFragment)
         })
 
         // Inflate the layout for this fragment

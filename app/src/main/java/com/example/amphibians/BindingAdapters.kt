@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.amphibians.network.Amphibian
+import com.example.amphibians.domain.AmphibianDomain
 import com.example.amphibians.ui.AmphibianApiStatus
 import com.example.amphibians.ui.AmphibianListAdapter
 
@@ -12,7 +12,7 @@ import com.example.amphibians.ui.AmphibianListAdapter
  * Updates the data shown in the [RecyclerView]
  */
 @BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<Amphibian>?) {
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<AmphibianDomain>?) {
     val adapter = recyclerView.adapter as AmphibianListAdapter
     adapter.submitList(data)
 }

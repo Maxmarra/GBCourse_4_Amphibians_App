@@ -6,32 +6,32 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.amphibians.databinding.ListViewItemBinding
-import com.example.amphibians.network.Amphibian
+import com.example.amphibians.domain.AmphibianDomain
 
 /**
  * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [List]
  * data, including computing diffs between lists.
  */
 class AmphibianListAdapter(val clickListener: AmphibianListener) :
-    ListAdapter<Amphibian, AmphibianListAdapter.AmphibianViewHolder>(DiffCallback) {
+    ListAdapter<AmphibianDomain, AmphibianListAdapter.AmphibianViewHolder>(DiffCallback) {
 
     class AmphibianViewHolder(
         var binding: ListViewItemBinding
         ) : RecyclerView.ViewHolder(binding.root){
-        fun bind(clickListener: AmphibianListener, amphibian: Amphibian) {
+        fun bind(clickListener: AmphibianListener, amphibian: AmphibianDomain) {
             binding.amphibian = amphibian
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Amphibian>() {
+    companion object DiffCallback : DiffUtil.ItemCallback<AmphibianDomain>() {
 
-        override fun areItemsTheSame(oldItem: Amphibian, newItem: Amphibian): Boolean {
+        override fun areItemsTheSame(oldItem: AmphibianDomain, newItem: AmphibianDomain): Boolean {
             return oldItem.name == newItem.name
         }
 
-        override fun areContentsTheSame(oldItem: Amphibian, newItem: Amphibian): Boolean {
+        override fun areContentsTheSame(oldItem: AmphibianDomain, newItem: AmphibianDomain): Boolean {
             return oldItem.type == newItem.type && oldItem.description == newItem.description
         }
 
@@ -50,6 +50,6 @@ class AmphibianListAdapter(val clickListener: AmphibianListener) :
     }
 }
 
-class AmphibianListener(val clickListener: (amphibian: Amphibian) -> Unit) {
-    fun onClick(amphibian: Amphibian) = clickListener(amphibian)
+class AmphibianListener(val clickListener: (amphibian: AmphibianDomain) -> Unit) {
+    fun onClick(amphibian: AmphibianDomain) = clickListener(amphibian)
 }

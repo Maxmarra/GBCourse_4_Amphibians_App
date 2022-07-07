@@ -1,23 +1,49 @@
 package com.example.amphibians.ui
 
-import androidx.lifecycle.ViewModel
-import com.example.amphibians.network.Amphibian
+import android.app.Application
+import androidx.lifecycle.*
+import com.example.amphibians.database.getDatabase
+import com.example.amphibians.domain.AmphibianDomain
+import com.example.amphibians.network.AmphibianApi
+import com.example.amphibians.repository.AmphibianRepository
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
 enum class AmphibianApiStatus {LOADING, ERROR, DONE}
 
-class AmphibianViewModel : ViewModel() {
+class AmphibianViewModel(application: Application)
+    : AndroidViewModel(application) {
 
-    // TODO: Create properties to represent MutableLiveData and LiveData for the API status
+    private val amphibianRepository = AmphibianRepository(getDatabase(application))
+    val amphibians = amphibianRepository.amphibians
 
-    // TODO: Create properties to represent MutableLiveData and LiveData for a list of amphibian objects
 
-    // TODO: Create properties to represent MutableLiveData and LiveData for a single amphibian object.
-    //  This will be used to display the details of an amphibian when a list item is clicked
+    private val _status = MutableLiveData<AmphibianApiStatus>()
+    val status: LiveData<AmphibianApiStatus> = _status
 
-    // TODO: Create a function that gets a list of amphibians from the api service and sets the
-    //  status via a Coroutine
 
-    fun onAmphibianClicked(amphibian: Amphibian) {
-        // TODO: Set the amphibian object
+//    private val _amphibians = MutableLiveData<List<AmphibianDomain>>()
+//    val amphibians: LiveData<List<AmphibianDomain>> = _amphibians
+
+
+    private val _amphibian = MutableLiveData<AmphibianDomain>()
+    val amphibian: LiveData<AmphibianDomain> = _amphibian
+
+
+    fun getAmphibiansList(){
+        _status.value = AmphibianApiStatus.LOADING
+        viewModelScope.launch {
+            try {
+                amphibianRepository.refreshAmphibians()
+                _status.value = AmphibianApiStatus.DONE
+            }catch (e:Exception){
+                _status.value = AmphibianApiStatus.ERROR
+
+            }
+        }
+    }
+
+    fun onAmphibianClicked(amphibian: AmphibianDomain) {
+        _amphibian.value = amphibian
     }
 }
