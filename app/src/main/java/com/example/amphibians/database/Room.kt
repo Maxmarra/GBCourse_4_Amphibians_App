@@ -15,7 +15,7 @@ interface AmphibianDao {
 
 
 
-@Database(entities = [AmphibianDatabaseEntity::class], version = 1)
+@Database(entities = [AmphibianDatabaseEntity::class], version = 1, exportSchema = false)
 abstract class AmphibianDatabase: RoomDatabase() {
     abstract val amphibianDao: AmphibianDao
 }
