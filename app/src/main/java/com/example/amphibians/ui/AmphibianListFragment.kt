@@ -27,7 +27,8 @@ class AmphibianListFragment : Fragment() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.recyclerView.adapter = AmphibianListAdapter(AmphibianListener { amphibian ->
+        binding.recyclerView.adapter =
+            AmphibianListAdapter(AmphibianListener { amphibian ->
             viewModel.onAmphibianClicked(amphibian)
             findNavController()
                 .navigate(R.id.action_amphibianListFragment_to_amphibianDetailFragment)
